@@ -28,3 +28,40 @@ h1,h2,h3,h4{font-family:Manrope,sans-serif!important;letter-spacing:-.035em!impo
 .footer{border-top:1px solid var(--line);padding:20px 4px;margin:22px 0 0;font-size:10px;letter-spacing:.07em;color:#6a7a9a;font-weight:800;display:flex;justify-content:space-between;gap:10px}
 .footer span{font-weight:550;color:#9ba7b8;letter-spacing:0}
 @media(max-width:750px){.block-container{padding-left:.9rem!important;padding-right:.9rem!important}.hero{padding:24px;border-radius:17px}.hero-symbol{display:none}.hero h1{font-size:27px!important}.footer{flex-direction:column}}
+
+/* Accessible contrast for all form controls on light cards. */
+[data-testid="stRadio"] label,
+[data-testid="stRadio"] label p,
+[data-testid="stRadio"] [role="radiogroup"] label,
+[data-testid="stRadio"] [role="radiogroup"] label span,
+[data-testid="stRadio"] [data-testid="stMarkdownContainer"] p {
+  color:#263e5d!important;
+  -webkit-text-fill-color:#263e5d!important;
+  opacity:1!important;
+}
+[data-testid="stRadio"] [data-baseweb="radio"] label,
+[data-testid="stRadio"] [data-baseweb="radio"] span {
+  color:#263e5d!important;
+}
+[data-testid="stAlert"] {
+  background:#e7f2ff!important;
+  border:1px solid #a9cbed!important;
+  border-radius:12px!important;
+}
+[data-testid="stAlert"] p,
+[data-testid="stAlert"] span,
+[data-testid="stAlert"] [data-testid="stMarkdownContainer"],
+[data-testid="stAlert"] [data-testid="stMarkdownContainer"] p {
+  color:#173e65!important;
+  -webkit-text-fill-color:#173e65!important;
+  opacity:1!important;
+}
+[data-testid="stFileUploader"] p,
+[data-testid="stFileUploader"] span,
+[data-testid="stFileUploader"] small,
+[data-testid="stSlider"] p,
+[data-testid="stNumberInput"] p,
+[data-testid="stSelectbox"] p,
+[data-testid="stCheckbox"] p {
+  color:#263e5d!important;
+}
