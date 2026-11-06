@@ -114,22 +114,22 @@ with tabs[0]:
             h=history.tail(110).rename(columns={"Sales":"Value"}).assign(Series="Historical")
             f=future.rename(columns={"Forecast":"Value"}).assign(Series="Forecast")
             dta=pd.concat([h,f],ignore_index=True)
-            chart=alt.Chart(dta).mark_line(strokeWidth=2.5,interpolate="monotone").encode(
+            chart=alt.Chart(dta).mark_line(strokeWidth=3,interpolate="monotone",point=False).encode(
                 x=alt.X("Date:T",title=None,axis=alt.Axis(format="%b %d",labelAngle=0)),
                 y=alt.Y("Value:Q",title="Sales"),color=alt.Color("Series:N",scale=alt.Scale(domain=["Historical","Forecast"],range=["#546bd0","#e4a458"])),
                 tooltip=[alt.Tooltip("Date:T",format="%b %d, %Y"),alt.Tooltip("Value:Q",format=",.0f"),"Series:N"]
-            ).properties(height=320)
-            st.altair_chart(chart,use_container_width=True)
+            ).properties(height=280).configure_view(stroke=None).configure_axis(gridColor="#e8edf4",domain=False,labelColor="#61738a",titleColor="#61738a",tickColor="#e8edf4").configure_legend(labelColor="#33475e",titleColor="#33475e",orient="top")
+            st.altair_chart(chart,use_container_width=True,theme=None)
     with right:
         with st.container(border=True):
             st.markdown("#### Forecast by week")
             byweek=future.assign(Week=lambda x:(np.arange(len(x))//7)+1).groupby("Week",as_index=False)["Forecast"].sum()
-            fig=alt.Chart(byweek).mark_bar(color="#5870cb",cornerRadiusEnd=5).encode(
+            fig=alt.Chart(byweek).mark_bar(color="#486fa4",cornerRadiusTopLeft=8,cornerRadiusTopRight=8,size=38).encode(
                 x=alt.X("Week:O",title="Week"),y=alt.Y("Forecast:Q",title="Forecast total"),
                 tooltip=["Week:O",alt.Tooltip("Forecast:Q",format=",.0f")]
-            ).properties(height=320)
-            st.altair_chart(fig,use_container_width=True)
-    st.download_button("↓ Export forecast CSV",future.to_csv(index=False).encode(),"xgboost_forecast.csv","text/csv")
+            ).properties(height=280).configure_view(stroke=None).configure_axis(gridColor="#e8edf4",domain=False,labelColor="#61738a",titleColor="#61738a",tickColor=False).configure_axisX(labelAngle=0)
+            st.altair_chart(fig,use_container_width=True,theme=None)
+    st.download_button("↓ Export forecast CSV",future.to_csv(index=False).encode(),"xgboost_forecast.csv","text/csv",type="primary")
 with tabs[1]:
     a,b=st.columns(2)
     a.metric("Holdout RMSE",f"{rmse:,.2f}")
@@ -141,7 +141,7 @@ with tabs[1]:
             x=alt.X("Date:T",title=None),y=alt.Y("Sales:Q"),
             color=alt.Color("Series:N",scale=alt.Scale(domain=["Actual","Predicted"],range=["#546bd0","#1ba89c"])),
             tooltip=["Date:T",alt.Tooltip("Sales:Q",format=",.0f"),"Series:N"]
-        ).properties(height=350),use_container_width=True)
+        ).properties(height=300).configure_view(stroke=None).configure_axis(gridColor="#e8edf4",domain=False,labelColor="#61738a",titleColor="#61738a").configure_legend(orient="top"),use_container_width=True,theme=None)
     st.caption("Time-ordered holdout uses observed previous sales as lagged features. Future multi-step predictions reuse model outputs and may be less accurate.")
 with tabs[2]:
     left,right=st.columns(2,gap="medium")
@@ -151,7 +151,7 @@ with tabs[2]:
             st.altair_chart(alt.Chart(importance.sort_values("Importance")).mark_bar(color="#6475d0",cornerRadiusEnd=4).encode(
                 x=alt.X("Importance:Q"),y=alt.Y("Feature:N",sort=None,title=None),
                 tooltip=["Feature:N",alt.Tooltip("Importance:Q",format=".3f")]
-            ).properties(height=325),use_container_width=True)
+            ).properties(height=300).configure_view(stroke=None).configure_axis(gridColor="#e8edf4",domain=False,labelColor="#61738a",titleColor="#61738a"),use_container_width=True,theme=None)
     with right:
         with st.container(border=True):
             st.markdown("#### Latest observations")
